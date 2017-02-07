@@ -58,17 +58,31 @@ angular.module('app').component('dgAffix', {
 		}
 
 		function setupAffix(selector, config){
-			setOffset(config);
+			setOffset(selector, config);
 			if(selector){
 				selector.on("scroll", function(){
-					setOffset(config);
+					setOffset(selector, config);
 				});
 			}
 		}
 
-		function setOffset(config){
+		function setOffset(selector, config){
+			var start;
 			if(vm.config.top){
-				$element.offset({top: 0});
+				start = parseInt(vm.config.top, 10);
+				$element.css({"top": start + selector.scrollTop()});
+			}
+			if(vm.config.bottom){
+				start = parseInt(vm.config.bottom, 10);
+				$element.css({"bottom": start - selector.scrollTop()});
+			}
+			if(vm.config.left){
+				start = parseInt(vm.config.left, 10);
+				$element.css({"left": start + selector.scrollLeft()});
+			}
+			if(vm.config.right){
+				start = parseInt(vm.config.right, 10);
+				$element.css({"right": start - selector.scrollLeft()});
 			}
 		}
 	}
